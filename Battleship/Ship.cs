@@ -2,6 +2,7 @@
 {
     internal class Ship
     {
+        public int countDecks;
         int hp;
         public List<int[]> ListOfCoordinates = new();
         public bool isAlive
@@ -14,9 +15,10 @@
                     return true;
             }
         }
-        public Ship(int hp)
+        public Ship(int countDecks)
         {
-            this.hp = hp;
+            this.countDecks = countDecks;
+            this.hp = countDecks;
         }
 
         public bool IsGetNewShot(int[] coordinates)

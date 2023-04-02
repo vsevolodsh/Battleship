@@ -6,15 +6,20 @@ namespace Battleship
         {
             InitializeComponent();
             Ship ship = new(4);
-            ship.ListOfCoordinates.Add(new[] { 6, 8 });
-            ship.ListOfCoordinates.Add(new[] { 6, 9 });
             Ship[] ships = new Ship[] { ship };
-            Field field = new Field();
-            AI ai = new(field, ships);
-            for (int i = 0; i < 100; i++)
-            {
-                ai.makeShot();
-            }
+            Field Humanfield = new Field();
+            Field AiField = new Field();
+            AI ai = new(Humanfield, AiField, ships);
+            ai.setShips();
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    ai.makeShot();
+            //}
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("sda");
         }
     }
 }

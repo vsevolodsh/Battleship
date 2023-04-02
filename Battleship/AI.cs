@@ -8,51 +8,76 @@ namespace Battleship
 {
     internal class AI
     {
-        Field field;
+        Field humanField;
+        Field AiField;
         Ship[] shipArr;
 
-        public AI(Field field, Ship[] shipArr)
+        public AI(Field humanField, Field AiField, Ship[] shipArr)
         {
-            this.field = field;
+            this.humanField = humanField;
+            this.AiField = AiField;
             this.shipArr = shipArr;
         }
 
         //сделать метод расставляющий корабли
+        public void setShips()
+        {
+            foreach (var ship in shipArr)
+            {
+                Random rnd = new();
+                for (int i = 0; i < ship.countDecks; i++)
+                {
+                    AiField.fillWeightDict();
+                    AiField.weightDict.TryGetValue(rnd.Next(0, AiField.weightDict.Count() - 1), out int[] value);
+                    ship.ListOfCoordinates.Add(value);
+                    updateFieldWeight(AiField, value);
+                    AiField.weightDict.Clear();
+                }
+            }
+        }
 
         public void makeShot()
         {
-            field.fillWeightDict();
+            humanField.fillWeightDict();
             Random rnd = new();
-            field.weightDict.TryGetValue(rnd.Next(0, field.weightDict.Count() - 1), out int[] value);
-            if (value[0] == 6 && value[1] == 9)
-            {
-
-            }
+            humanField.weightDict.TryGetValue(rnd.Next(0, humanField.weightDict.Count() - 1), out int[] value);
             foreach (var ship in shipArr)
             {
                 if (ship.IsGetNewShot(value))
                 {
                     //попали - вес ячейки делаем 0, все ячейки по диагонали на 1 делаем 0, остальные ячейки вокруг нее вес - 10
-                    field.weightArr[value[0], value[1]] *= 0;
-                    field.weightArr[value[0] - 1, value[1] - 1] *= 0;
-                    field.weightArr[value[0] + 1, value[1] - 1] *= 0;
-                    field.weightArr[value[0] - 1, value[1] + 1] *= 0;
-                    field.weightArr[value[0] + 1, value[1] + 1] *= 0;
-                    field.weightArr[value[0] - 1, value[1]] *= 10;
-                    field.weightArr[value[0] + 1, value[1]] *= 10;
-                    field.weightArr[value[0], value[1] - 1] *= 10;
-                    field.weightArr[value[0], value[1] + 1] *= 10;
+                    updateFieldWeight(humanField, value);
                     if (!ship.isAlive)
-                    {    
+                    {
                         //вес ячеек вокруг потопленного корабля делаем 0  
+                        if (ship.countDecks == 1)
+                        {
+                            humanField.weightArr[value[0] - 1, value[1]] *= 0;
+                            humanField.weightArr[value[0] + 1, value[1]] *= 0;
+                            humanField.weightArr[value[0], value[1] - 1] *= 0;
+                            humanField.weightArr[value[0], value[1] + 1] *= 0;
+                        }
                     }
                 }
                 else
                 {
-                    field.weightArr[value[0], value[1]] *= 0; //не попали - делаем вес ячейки -
+                    humanField.weightArr[value[0], value[1]] *= 0; //не попали - делаем вес ячейки -
                 }
             }
-            field.weightDict.Clear();
+            humanField.weightDict.Clear();
+        }
+
+        private void updateFieldWeight(Field field, int[] XYcoordinates)
+        {
+            field.weightArr[XYcoordinates[0], XYcoordinates[1]] *= 0;
+            field.weightArr[XYcoordinates[0] - 1, XYcoordinates[1] - 1] *= 0;
+            field.weightArr[XYcoordinates[0] + 1, XYcoordinates[1] - 1] *= 0;
+            field.weightArr[XYcoordinates[0] - 1, XYcoordinates[1] + 1] *= 0;
+            field.weightArr[XYcoordinates[0] + 1, XYcoordinates[1] + 1] *= 0;
+            field.weightArr[XYcoordinates[0] - 1, XYcoordinates[1]] *= 10;
+            field.weightArr[XYcoordinates[0] + 1, XYcoordinates[1]] *= 10;
+            field.weightArr[XYcoordinates[0], XYcoordinates[1] - 1] *= 10;
+            field.weightArr[XYcoordinates[0], XYcoordinates[1] + 1] *= 10;
         }
     }
 }
