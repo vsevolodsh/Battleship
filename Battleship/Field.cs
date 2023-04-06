@@ -21,13 +21,7 @@ namespace Battleship
             {1,1,1,1,1,1,1,1,1,1},
             {1,1,1,1,1,1,1,1,1,1},
         };
-        //Ship[] shipArr;
        public Dictionary<int, int[]> weightDict = new();
-
-        //public Field(Ship[] shipArr)
-        //{
-        //    this.shipArr = shipArr;
-        //}
 
 
         public void fillWeightDict()
@@ -58,6 +52,18 @@ namespace Battleship
                     }
                 }
             }
+        }
+        public void updateFieldWeight(int[] XYcoordinates)
+        {
+            weightArr[XYcoordinates[0], XYcoordinates[1]] *= 0;
+            weightArr[XYcoordinates[0] - 1, XYcoordinates[1] - 1] *= 0;
+            weightArr[XYcoordinates[0] + 1, XYcoordinates[1] - 1] *= 0;
+            weightArr[XYcoordinates[0] - 1, XYcoordinates[1] + 1] *= 0;
+            weightArr[XYcoordinates[0] + 1, XYcoordinates[1] + 1] *= 0;
+            weightArr[XYcoordinates[0] - 1, XYcoordinates[1]] *= 10;
+            weightArr[XYcoordinates[0] + 1, XYcoordinates[1]] *= 10;
+            weightArr[XYcoordinates[0], XYcoordinates[1] - 1] *= 10;
+            weightArr[XYcoordinates[0], XYcoordinates[1] + 1] *= 10;
         }
     }
 }
