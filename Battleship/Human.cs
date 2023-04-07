@@ -18,13 +18,21 @@
         {
             if (humanField.weightArr[xyCoordinates[0], xyCoordinates[1]] == 10)
             {
+                /*if(humanShipArr[shipIndex].ListOfCoordinates.Count() != 0)
+                {
+                    if (humanShipArr[shipIndex].ListOfCoordinates[0][0] > xyCoordinates[0])
+                    {
+
+                    }
+                }*/
                 humanShipArr[shipIndex].ListOfCoordinates.Add(xyCoordinates);
-                humanField.updateFieldWeight(xyCoordinates);
+                //humanShipArr[shipIndex].ListOfCoordinates.Sort();
+                humanField.updateFieldWeight(xyCoordinates, humanShipArr[shipIndex], false);
                 return true;
             }
             else
             {
-                return false;   
+                return false;
             }
         }
     }

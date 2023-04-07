@@ -18,7 +18,7 @@
         public Ship(int countDecks)
         {
             this.countDecks = countDecks;
-            this.hp = countDecks;
+            hp = countDecks;
         }
 
         public bool IsGetNewShot(int[] coordinates)

@@ -43,13 +43,15 @@ namespace Battleship
             hit = false;
             humanField.fillWeightDict();
             Random rnd = new();
+            bool fight = true;
             humanField.weightDict.TryGetValue(rnd.Next(0, humanField.weightDict.Count() - 1), out value);
             foreach (var ship in humanShipArr)
             {
                 if (ship.IsGetNewShot(value))
                 {
+                    if (!ship.isAlive) fight = false;
                     //попали - вес ячейки делаем 0, все ячейки по диагонали на 1 делаем 0, остальные ячейки вокруг нее вес - 10
-                    humanField.updateFieldWeight(value);
+                    humanField.updateFieldWeight(value, ship, fight);
                     hit = true;
                     if (!ship.isAlive)
                     {
