@@ -53,18 +53,6 @@ namespace Battleship
                 }
             }
         }
-        /*public void updateFieldWeight(int[] XYcoordinates)
-        {
-            weightArr[XYcoordinates[0], XYcoordinates[1]] *= 0;
-            weightArr[XYcoordinates[0] - 1, XYcoordinates[1] - 1] *= 0;
-            weightArr[XYcoordinates[0] + 1, XYcoordinates[1] - 1] *= 0;
-            weightArr[XYcoordinates[0] - 1, XYcoordinates[1] + 1] *= 0;
-            weightArr[XYcoordinates[0] + 1, XYcoordinates[1] + 1] *= 0;
-            weightArr[XYcoordinates[0] - 1, XYcoordinates[1]] *= 10;
-            weightArr[XYcoordinates[0] + 1, XYcoordinates[1]] *= 10;
-            weightArr[XYcoordinates[0], XYcoordinates[1] - 1] *= 10;
-            weightArr[XYcoordinates[0], XYcoordinates[1] + 1] *= 10;
-        }*/
 
         public void updateFieldWeight(int[] XYcoordinates, Ship ship, bool fight)
         {
@@ -141,41 +129,6 @@ namespace Battleship
                 weightArr[XYcoordinates[0], XYcoordinates[1] - 1] *= 10;
                 weightArr[XYcoordinates[0], XYcoordinates[1] + 1] *= 10;
             }
-
-            /*if(ship.countDecks == ship.ListOfCoordinates.Count())
-            {
-                if (ship.ListOfCoordinates[0][0] == ship.ListOfCoordinates[1][0])
-                {
-                    if(ship.ListOfCoordinates[0][1] != 0 && ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][1] != 9)
-                    {
-                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][1] + 1] *= 0;
-                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][1] - 1] *= 0;
-                    }
-                    else if (ship.ListOfCoordinates[0][1] == 0)
-                    {
-                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][1] + 1] *= 0;
-                    } else if (ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][1] == 9)
-                    {
-                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][1] - 1] *= 0;
-                    }
-                } else if (ship.ListOfCoordinates[0][1] == ship.ListOfCoordinates[1][1])
-                {
-                    if (ship.ListOfCoordinates[0][0] != 0 && ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][0] != 9)
-                    {
-                        weightArr[ship.ListOfCoordinates[0][0] - 1, ship.ListOfCoordinates[0][1]] *= 0;
-                        weightArr[ship.ListOfCoordinates[0][0] + 1, ship.ListOfCoordinates[0][1]] *= 0;
-                    }
-                    else if (ship.ListOfCoordinates[0][0] == 0)
-                    {
-                        weightArr[ship.ListOfCoordinates[0][0] + 1, ship.ListOfCoordinates[0][1]] *= 0;
-                    }
-                    else if (ship.ListOfCoordinates[ship.ListOfCoordinates.Count()][0] == 9)
-                    {
-                        weightArr[ship.ListOfCoordinates[0][0] - 1, ship.ListOfCoordinates[0][1]] *= 0;
-                    }
-                }
-            }*/
-
             if ((ship.countDecks == ship.ListOfCoordinates.Count() || !ship.isAlive) && !fight)
             {
                 if (ship.ListOfCoordinates[0][0] == ship.ListOfCoordinates[1][0])
