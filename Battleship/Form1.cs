@@ -9,13 +9,32 @@ namespace Battleship
         static Ship humanShip40 = new(4);
         static Ship humanShip30 = new(3);
         static Ship humanShip31 = new(3);
+        static Ship humanShip20 = new(2);
+        static Ship humanShip21 = new(2);
+        static Ship humanShip22 = new(2);
+        static Ship humanShip10 = new(1);
+        static Ship humanShip11 = new(1);
+        static Ship humanShip12 = new(1);
+        static Ship humanShip13 = new(1);
 
         static Ship aiShip40 = new(4);
         static Ship aiShip30 = new(3);
         static Ship aiShip31 = new(3);
+        static Ship aiShip20 = new(2);
+        static Ship aiShip21 = new(2);
+        static Ship aiShip22 = new(2);
+        static Ship aiShip10 = new(1);
+        static Ship aiShip11 = new(1);
+        static Ship aiShip12 = new(1);
+        static Ship aiShip13 = new(1);
 
-        static Ship[] humanShips = new Ship[] { humanShip40, humanShip30, humanShip31 };
-        static Ship[] aiShips = new Ship[] { aiShip40, aiShip30, aiShip31 };
+
+        static Ship[] humanShips = new Ship[] { humanShip40, humanShip30, humanShip31, humanShip20, humanShip21, humanShip21, humanShip22, 
+            humanShip10, humanShip11, humanShip12, humanShip13 };
+
+
+        static Ship[] aiShips = new Ship[] { aiShip40, aiShip30, aiShip31, aiShip20, aiShip21,aiShip21, aiShip22,
+            aiShip10, aiShip11, aiShip12, aiShip13 };
 
         int humanShipsCount = 0;
         int click = 0;
