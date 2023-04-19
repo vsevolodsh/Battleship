@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Battleship
@@ -29,11 +30,11 @@ namespace Battleship
         static Ship aiShip13 = new(1);
 
 
-        static Ship[] humanShips = new Ship[] { humanShip40, humanShip30, humanShip31, humanShip20, humanShip21, humanShip21, humanShip22, 
+        static Ship[] humanShips = new Ship[] { humanShip40, humanShip30, humanShip31, humanShip20, humanShip21, humanShip22,
             humanShip10, humanShip11, humanShip12, humanShip13 };
 
 
-        static Ship[] aiShips = new Ship[] { aiShip40, aiShip30, aiShip31, aiShip20, aiShip21,aiShip21, aiShip22,
+        static Ship[] aiShips = new Ship[] { aiShip40, aiShip30, aiShip31, aiShip20, aiShip21, aiShip22,
             aiShip10, aiShip11, aiShip12, aiShip13 };
 
         int humanShipsCount = 0;
@@ -74,30 +75,63 @@ namespace Battleship
         private void aiPanel_Click(object sender, EventArgs e)
         {
             Panel pnl = sender as Panel;
+            bool wound;
+            Ship shipPaint;
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
                     if (pnl.Equals(aiPanels[i, j]))
                     {
-                        if (human.MakeShot(new int[] { i, j }))
+                        if (human.MakeShot(new int[] { i, j }, out wound, out shipPaint))
                         {
-                            aiPanels[i, j].BackColor = Color.Red;
+                            if (wound)
+                            {
+                                aiPanels[i, j].BackColor = Color.Orange;
+                                aiPanels[i, j].Enabled = false;
+                            }
+                            else
+                            {
+                                foreach (var coord in shipPaint.ListOfCoordinates)
+                                {
+                                    aiPanels[coord[0], coord[1]].BackColor = Color.Red;
+                                    aiPanels[coord[0], coord[1]].Enabled = false;
+                                }
+                                for (int k = 0; k < 10; k++)
+                                {
+                                    for (int l = 0; l < 10; l++)
+                                    {
+                                        if (AiField.weightArr[k, l] == 0 && aiPanels[k, l].BackColor != Color.Red)
+                                        {
+                                            aiPanels[k, l].BackColor = Color.Gray;
+                                            aiPanels[k, l].Enabled = false;
+                                        }
+                                    }
+                                }
+                            }
                         }
                         else
                         {
                             aiPanels[i, j].BackColor = Color.Gray;
+                            aiPanels[i, j].Enabled = false;
                         }
-                        
                     }
                 }
             }
             int[] panelCoord;
             bool hit;
-            ai.MakeShot(out panelCoord, out hit);
+            ai.MakeShot(out panelCoord, out hit, out wound, out shipPaint);
             if (hit)
             {
-                humanPanels[panelCoord[0], panelCoord[1]].BackColor = Color.Red;
+                if (wound)
+                    humanPanels[panelCoord[0], panelCoord[1]].BackColor = Color.Orange;
+                else
+                {
+                    foreach (var coord in shipPaint.ListOfCoordinates)
+                    {
+                        humanPanels[coord[0], coord[1]].BackColor = Color.Red;
+                    }
+                }
             }
             else
             {
@@ -107,7 +141,7 @@ namespace Battleship
 
         private void humanPanel_Click(object sender, EventArgs e)
         {
-           
+
             label3.Text = $"Расположите корабль с {humanShips[humanShipsCount].countDecks} палубами";
             Panel pnl = sender as Panel;
             for (int i = 0; i < 10; i++)
@@ -138,8 +172,15 @@ namespace Battleship
                         }
                         if (humanShipsCount == humanShips.Count())
                         {
-                            label3.Text = "Расстановка окончена! Для начала боя нажмите кнопку \"Начать бой\".";
+                            label3.Text = "Расстановка окончена!\nДля начала боя нажмите кнопку \"Начать бой\".";
                             buttonStartBattle.Enabled = true;
+                            for (int k = 0; k < 10; k++)
+                            {
+                                for (int l = 0; l < 10; l++)
+                                {
+                                    humanPanels[k, l].Enabled = false;
+                                }
+                            }
                             ai.SetShips(); // расстановка кораблей бота.
                         }
                         return;
@@ -148,41 +189,48 @@ namespace Battleship
             }
         }
 
+        private void newGame()
+        {
+            humanShipsCount = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    humanPanels[i, j].BackColor = Color.White;
+                    aiPanels[i, j].BackColor = Color.White;
+                    humanfield.weightArr[i, j] = 1;
+                    AiField.weightArr[i, j] = 1;
+                }
+            }
+            foreach (var item in humanShips)
+            {
+                item.ListOfCoordinates.Clear();
+            }
+            foreach (var item in aiShips)
+            {
+                item.ListOfCoordinates.Clear();
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             int[] panelCoord;
             bool hit;
-            ai.MakeShot(out panelCoord, out hit);
-            if (hit)
-            {
-                humanPanels[panelCoord[0], panelCoord[1]].BackColor = Color.Red;
-            }
-            else
-            {
-                humanPanels[panelCoord[0], panelCoord[1]].BackColor = Color.Gray;
-            }
+            /* ai.MakeShot(out panelCoord, out hit);
+             if (hit)
+             {
+                 humanPanels[panelCoord[0], panelCoord[1]].BackColor = Color.Red;
+             }
+             else
+             {
+                 humanPanels[panelCoord[0], panelCoord[1]].BackColor = Color.Gray;
+             }*/
 
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            humanfield.weightArr = new int[,]
-        {
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1},
-        };
         }
 
         private void начатьНовуюИгруСоСлучайнойРасстановкойToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            newGame();
             ai.SetShips(); // расстановка кораблей бота.
             human.AutoSetShips();
             foreach (var ship in humanShips)
@@ -197,6 +245,7 @@ namespace Battleship
 
         private void начатьИгруСПользовательскойРасстановкойToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            newGame();
             foreach (var panel in humanPanels)
             {
                 panel.Enabled = true;
@@ -210,6 +259,14 @@ namespace Battleship
             foreach (var panel in aiPanels)
             {
                 panel.Enabled = true;
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    humanfield.weightArr[i, j] = 1;
+                    AiField.weightArr[i, j] = 1;
+                }
             }
         }
     }

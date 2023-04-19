@@ -37,8 +37,10 @@ namespace Battleship
             }
         }
 
-        public void MakeShot(out int[] value, out bool hit)
+        public void MakeShot(out int[] value, out bool hit, out bool wound, out Ship shipPaint)
         {
+            wound = false;
+            shipPaint = AiShipArr[0];
             hit = false;
             humanField.fillWeightDict();
             Random rnd = new();
@@ -48,12 +50,16 @@ namespace Battleship
             {
                 if (ship.IsGetNewShot(value))
                 {
-                    if (!ship.isAlive) 
+
+                    shipPaint = ship;
+                    if (!ship.isAlive)
                         fight = false;
+                    else 
+                        wound = true;
                     //попали - вес ячейки делаем 0, все ячейки по диагонали на 1 делаем 0, остальные ячейки вокруг нее вес - 10
                     humanField.updateFieldWeight(value, ship, fight);
                     hit = true;
-                    if (!ship.isAlive)
+                    /*if (!ship.isAlive)
                     {
                         //вес ячеек вокруг потопленного корабля делаем 0  
                         if (ship.countDecks == 1)
@@ -63,7 +69,7 @@ namespace Battleship
                             humanField.weightArr[value[0], value[1] - 1] *= 0;
                             humanField.weightArr[value[0], value[1] + 1] *= 0;
                         }
-                    }
+                    }*/
                     break;
                 }
             }

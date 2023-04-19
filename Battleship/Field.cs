@@ -131,41 +131,100 @@ namespace Battleship
             }
             if ((ship.countDecks == ship.ListOfCoordinates.Count() || !ship.isAlive) && !fight)
             {
-                if (ship.ListOfCoordinates[0][0] == ship.ListOfCoordinates[1][0])
+                if (ship.ListOfCoordinates.Count() == 1)
                 {
-                    for(int i = 0; i < ship.ListOfCoordinates.Count(); i++)
+                    if (ship.ListOfCoordinates[0][0] != 0 && ship.ListOfCoordinates[0][0] != 9 && ship.ListOfCoordinates[0][1] != 0 && ship.ListOfCoordinates[0][1] != 9)
                     {
-                        if (ship.ListOfCoordinates[i][1] != 0 && ship.ListOfCoordinates[i][1] != 9)
+                        weightArr[ship.ListOfCoordinates[0][0] + 1, ship.ListOfCoordinates[0][1]] *= 0;
+                        weightArr[ship.ListOfCoordinates[0][0] - 1, ship.ListOfCoordinates[0][1]] *= 0;
+                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] + 1] *= 0;
+                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] - 1] *= 0;
+                    }
+                    else if (ship.ListOfCoordinates[0][0] == 0)
+                    {
+                        weightArr[ship.ListOfCoordinates[0][0] + 1, ship.ListOfCoordinates[0][1]] *= 0;
+                        if (ship.ListOfCoordinates[0][1] != 0 && ship.ListOfCoordinates[0][1] != 9)
                         {
-                            weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] + 1] *= 0;
-                            weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] - 1] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] + 1] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] - 1] *= 0;
                         }
-                        else if (ship.ListOfCoordinates[i][1] == 0)
+                        else if (ship.ListOfCoordinates[0][1] == 0)
                         {
-                            weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] + 1] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] + 1] *= 0;
                         }
-                        else if (ship.ListOfCoordinates[i][1] == 9)
+                        else
                         {
-                            weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] - 1] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] - 1] *= 0;
                         }
                     }
-                }
-                else if (ship.ListOfCoordinates[0][1] == ship.ListOfCoordinates[1][1])
-                {
-                    for (int i = 0; i < ship.ListOfCoordinates.Count(); i++)
+                    else if (ship.ListOfCoordinates[0][0] == 9)
                     {
-                        if (ship.ListOfCoordinates[i][0] != 0 && ship.ListOfCoordinates[i][0] != 9)
+                        weightArr[ship.ListOfCoordinates[0][0] - 1, ship.ListOfCoordinates[0][1]] *= 0;
+                        if (ship.ListOfCoordinates[0][1] != 0 && ship.ListOfCoordinates[0][1] != 9)
                         {
-                            weightArr[ship.ListOfCoordinates[i][0] - 1, ship.ListOfCoordinates[i][1]] *= 0;
-                            weightArr[ship.ListOfCoordinates[i][0] + 1, ship.ListOfCoordinates[i][1]] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] + 1] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] - 1] *= 0;
                         }
-                        else if (ship.ListOfCoordinates[i][0] == 0)
+                        else if (ship.ListOfCoordinates[0][1] == 0)
                         {
-                            weightArr[ship.ListOfCoordinates[i][0] + 1, ship.ListOfCoordinates[i][1]] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] + 1] *= 0;
                         }
-                        else if (ship.ListOfCoordinates[i][0] == 9)
+                        else
                         {
-                            weightArr[ship.ListOfCoordinates[i][0] - 1, ship.ListOfCoordinates[i][1]] *= 0;
+                            weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] - 1] *= 0;
+                        }
+                    }
+                    else if (ship.ListOfCoordinates[0][1] == 0)
+                    {
+                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] + 1] *= 0;
+                        weightArr[ship.ListOfCoordinates[0][0] + 1, ship.ListOfCoordinates[0][1]] *= 0;
+                        weightArr[ship.ListOfCoordinates[0][0] - 1, ship.ListOfCoordinates[0][1]] *= 0;
+                    }
+                    else if (ship.ListOfCoordinates[0][1] == 9)
+                    {
+                        weightArr[ship.ListOfCoordinates[0][0], ship.ListOfCoordinates[0][1] - 1] *= 0;
+                        weightArr[ship.ListOfCoordinates[0][0] + 1, ship.ListOfCoordinates[0][1]] *= 0;
+                        weightArr[ship.ListOfCoordinates[0][0] - 1, ship.ListOfCoordinates[0][1]] *= 0;
+                    }
+                }
+                else
+                {
+                    if (ship.ListOfCoordinates[0][0] == ship.ListOfCoordinates[1][0])
+                    {
+                        for (int i = 0; i < ship.ListOfCoordinates.Count(); i++)
+                        {
+                            if (ship.ListOfCoordinates[i][1] != 0 && ship.ListOfCoordinates[i][1] != 9)
+                            {
+                                weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] + 1] *= 0;
+                                weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] - 1] *= 0;
+                            }
+                            else if (ship.ListOfCoordinates[i][1] == 0)
+                            {
+                                weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] + 1] *= 0;
+                            }
+                            else if (ship.ListOfCoordinates[i][1] == 9)
+                            {
+                                weightArr[ship.ListOfCoordinates[i][0], ship.ListOfCoordinates[i][1] - 1] *= 0;
+                            }
+                        }
+                    }
+                    else if (ship.ListOfCoordinates[0][1] == ship.ListOfCoordinates[1][1])
+                    {
+                        for (int i = 0; i < ship.ListOfCoordinates.Count(); i++)
+                        {
+                            if (ship.ListOfCoordinates[i][0] != 0 && ship.ListOfCoordinates[i][0] != 9)
+                            {
+                                weightArr[ship.ListOfCoordinates[i][0] - 1, ship.ListOfCoordinates[i][1]] *= 0;
+                                weightArr[ship.ListOfCoordinates[i][0] + 1, ship.ListOfCoordinates[i][1]] *= 0;
+                            }
+                            else if (ship.ListOfCoordinates[i][0] == 0)
+                            {
+                                weightArr[ship.ListOfCoordinates[i][0] + 1, ship.ListOfCoordinates[i][1]] *= 0;
+                            }
+                            else if (ship.ListOfCoordinates[i][0] == 9)
+                            {
+                                weightArr[ship.ListOfCoordinates[i][0] - 1, ship.ListOfCoordinates[i][1]] *= 0;
+                            }
                         }
                     }
                 }

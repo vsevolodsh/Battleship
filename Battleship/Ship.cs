@@ -9,7 +9,7 @@
         {
             get
             {
-                if (hp == 0)
+                if (hp <= 0)
                     return false;
                 else
                     return true;

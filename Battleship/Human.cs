@@ -4,7 +4,7 @@
     {
         Field humanField;
         Field AiField;
-       Ship[] AiShipArr;
+        Ship[] AiShipArr;
         Ship[] humanShipArr;
 
         public Human(Field humanField, Field AiField, Ship[] AiShipArr, Ship[] humanShipArr)
@@ -15,12 +15,22 @@
             this.humanShipArr = humanShipArr;
         }
 
-        public bool MakeShot(int[] xyCoordinates)
+        public bool MakeShot(int[] xyCoordinates, out bool wound, out Ship shipPaint)
         {
+            wound = false;
+            bool fight = true;
+            shipPaint = AiShipArr[0];
             foreach (var ship in AiShipArr)
             {
                 if (ship.IsGetNewShot(xyCoordinates))
                 {
+                    
+                    shipPaint = ship;
+                    if (ship.isAlive)
+                        wound = true;
+                    else
+                        fight = false;
+                    AiField.updateFieldWeight(xyCoordinates, ship, fight);
                     return true;
                 }
             } 
