@@ -5,6 +5,7 @@
         public int countDecks;
         int hp;
         public List<int[]> ListOfCoordinates = new();
+        //public static int liveShipsCount = 10;
         public bool isAlive
         {
             get

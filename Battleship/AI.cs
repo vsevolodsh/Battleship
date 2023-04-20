@@ -59,18 +59,6 @@ namespace Battleship
                     //попали - вес ячейки делаем 0, все ячейки по диагонали на 1 делаем 0, остальные ячейки вокруг нее вес - 10
                     humanField.updateFieldWeight(value, ship, fight);
                     hit = true;
-                    /*if (!ship.isAlive)
-                    {
-                        //вес ячеек вокруг потопленного корабля делаем 0  
-                        if (ship.countDecks == 1)
-                        {
-                            humanField.weightArr[value[0] - 1, value[1]] *= 0;
-                            humanField.weightArr[value[0] + 1, value[1]] *= 0;
-                            humanField.weightArr[value[0], value[1] - 1] *= 0;
-                            humanField.weightArr[value[0], value[1] + 1] *= 0;
-                        }
-                    }*/
-                    break;
                 }
             }
             if (!hit)
@@ -79,8 +67,6 @@ namespace Battleship
             }
             humanField.weightDict.Clear();
         }
-
-
     }
 }
 
